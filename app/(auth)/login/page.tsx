@@ -1,0 +1,39 @@
+import Link from "next/link";
+import Image from "next/image";
+
+import LoginForm from "@/features/auth/components/login-form";
+
+type Props = {
+  searchParams: Promise<{
+    next?: string;
+  }>;
+};
+
+export default async function LoginPage({
+  searchParams,
+}: Props) {
+  const params = await searchParams;
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-white p-6">
+      <Link
+        href="/"
+        className="mb-8 flex items-center gap-3"
+      >
+        <Image
+          src="/images/logos/dt-logo.jpeg"
+          alt="Designer Threads"
+          width={44}
+          height={44}
+          className="rounded-full object-cover"
+        />
+
+        <span className="font-serif text-[19px] tracking-[-0.02em] text-[#103f35]">
+          Designer Threads
+        </span>
+      </Link>
+
+      <LoginForm next={params.next || "/"} />
+    </main>
+  );
+}
