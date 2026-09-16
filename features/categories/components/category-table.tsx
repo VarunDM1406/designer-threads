@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getCategories } from "../actions/get-categories";
+import DeleteCategoryButton from "./delete-category-button";
 
 export default async function CategoryTable() {
   const categories = await getCategories();
@@ -67,12 +68,16 @@ export default async function CategoryTable() {
               </td>
 
               <td className="px-6 py-4 text-right">
-                <Link
-                  href={`/admin/categories/${category.id}`}
-                  className="rounded-lg border px-3 py-2 text-sm hover:bg-gray-100"
-                >
-                  Edit
-                </Link>
+                <div className="flex justify-end gap-2">
+                  <Link
+                    href={`/admin/categories/${category.id}`}
+                    className="rounded-lg border px-3 py-2 text-sm hover:bg-gray-100"
+                  >
+                    Edit
+                  </Link>
+
+                  <DeleteCategoryButton id={category.id} />
+                </div>
               </td>
             </tr>
           ))}

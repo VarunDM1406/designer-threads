@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
 import type { Banner } from "@/features/banners/types/banner";
@@ -18,7 +18,7 @@ type Slide = {
 
 const fallbackSlides: Slide[] = [
   {
-    video: "/10547964-uhd_4096_2160_25fps.mp4",
+    video: "/video1.mp4",
     title: (
       <>
         Timeless ethnic,
@@ -30,36 +30,12 @@ const fallbackSlides: Slide[] = [
     buttonLink: "/shop",
   },
   {
-    video: "/10548047-uhd_4096_2160_25fps.mp4",
+    video: "/video2.mp4",
     title: (
       <>
         Made to be
         <br />
         <em>remembered.</em>
-      </>
-    ),
-    buttonText: "SHOP THE COLLECTION",
-    buttonLink: "/shop",
-  },
-  {
-    video: "/10548173-uhd_4096_2160_25fps.mp4",
-    title: (
-      <>
-        Crafted slowly.
-        <br />
-        <em>Worn forever.</em>
-      </>
-    ),
-    buttonText: "SHOP THE COLLECTION",
-    buttonLink: "/shop",
-  },
-  {
-    video: "/10677455-hd_4096_2160_25fps.mp4",
-    title: (
-      <>
-        Something
-        <br />
-        <em>is waiting.</em>
       </>
     ),
     buttonText: "SHOP THE COLLECTION",
@@ -90,6 +66,29 @@ export default function Hero({ banners = [] }: HeroProps) {
 
   const [active, setActive] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
+  const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
+
+  /*
+   * Explicitly play the active slide's video and pause the rest.
+   * Toggling the `autoPlay` attribute on an already-mounted <video>
+   * does nothing in browsers — it only takes effect on initial mount —
+   * so switching slides needs a real .play()/.pause() call here.
+   */
+  useEffect(() => {
+    Object.entries(videoRefs.current).forEach(([index, videoEl]) => {
+      if (!videoEl) return;
+
+      if (Number(index) === active) {
+        videoEl.currentTime = 0;
+        videoEl.play().catch(() => {
+          // Autoplay can be blocked before any user interaction —
+          // the video will still show its first frame.
+        });
+      } else {
+        videoEl.pause();
+      }
+    });
+  }, [active]);
 
   /*
    * Smooth text transition:
@@ -116,9 +115,18 @@ export default function Hero({ banners = [] }: HeroProps) {
     }, 7000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
-  const slide = slides[active];
+  // Guard against `active` pointing past the end of `slides` — e.g. right
+  // after a hot-reload shrinks the slide list, or if the active banner set
+  // changes size while a page is already open.
+  useEffect(() => {
+    if (active >= slides.length) {
+      setActive(0);
+    }
+  }, [active, slides.length]);
+
+  const slide = slides[active] ?? slides[0];
 
   return (
     <section className="relative h-[100svh] min-h-[680px] overflow-hidden bg-black text-white">
@@ -133,8 +141,11 @@ export default function Hero({ banners = [] }: HeroProps) {
           item.video ? (
             <video
               key={item.video}
+              ref={(el) => {
+                videoRefs.current[index] = el;
+              }}
               src={item.video}
-              autoPlay={index === active}
+              autoPlay={index === 0}
               muted
               loop
               playsInline

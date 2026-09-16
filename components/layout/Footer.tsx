@@ -1,6 +1,12 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+
+import { getSiteContact } from "@/lib/site-contact";
+import { InstagramIcon, FacebookIcon } from "@/components/icons/social";
 
 const shopLinks = [
   { name: "Shop All", href: "/shop" },
@@ -25,6 +31,24 @@ const customerLinks = [
 ];
 
 export default function Footer() {
+  const [instagramUrl, setInstagramUrl] = useState<string | null>(null);
+  const [facebookUrl, setFacebookUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    getSiteContact().then((contact) => {
+      if (cancelled) return;
+
+      setInstagramUrl(contact.instagramUrl);
+      setFacebookUrl(contact.facebookUrl);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <footer className="border-t border-[#ddd6ca] bg-white text-[#171717]">
 
@@ -70,6 +94,34 @@ export default function Footer() {
                 className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </Link>
+
+            {(instagramUrl || facebookUrl) && (
+              <div className="mt-7 flex items-center gap-3">
+                {instagramUrl && (
+                  <a
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ddd6ca] text-[#103f35] transition-colors hover:border-[#103f35]"
+                  >
+                    <InstagramIcon />
+                  </a>
+                )}
+
+                {facebookUrl && (
+                  <a
+                    href={facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ddd6ca] text-[#103f35] transition-colors hover:border-[#103f35]"
+                  >
+                    <FacebookIcon />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Shop */}
@@ -130,59 +182,6 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-14 border-t border-[#ddd6ca] pt-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <h3 className="text-[9px] font-medium uppercase tracking-[0.3em] text-[#a87932]">
-                Stay in the know
-              </h3>
-
-              <p className="mt-3 max-w-[380px] text-[13px] leading-5 text-[#60716e]">
-                Be the first to discover new collections, special
-                edits and stories from Designer Threads.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-6">
-              <form className="flex w-[260px] border-b border-[#ddd6ca] pb-2">
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  aria-label="Email address"
-                  className="min-w-0 flex-1 bg-transparent text-[12px] text-[#171717] outline-none placeholder:text-[#60716e]/70"
-                />
-
-                <button
-                  type="submit"
-                  className="ml-4 shrink-0 text-[9px] font-medium uppercase tracking-[0.18em] text-[#103f35] transition-opacity hover:opacity-70"
-                >
-                  Subscribe
-                </button>
-              </form>
-
-              {/* Socials */}
-              <div className="flex items-center gap-3">
-                <a
-                  href="#"
-                  aria-label="Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ddd6ca] text-[#103f35] transition-colors hover:border-[#103f35]"
-                >
-                  <span className="text-[11px] font-medium">IG</span>
-                </a>
-
-                <a
-                  href="#"
-                  aria-label="Facebook"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ddd6ca] text-[#103f35] transition-colors hover:border-[#103f35]"
-                >
-                  <span className="text-[11px] font-medium">FB</span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </div>

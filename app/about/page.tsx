@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     "Designer Threads brings Indian craftsmanship into a contemporary wardrobe — considered, expressive and made for today.",
 };
 
-export default function AboutPage() {
-  const { whatsappUrl } = getSiteContact();
+export default async function AboutPage() {
+  const { whatsappUrl } = await getSiteContact();
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function AboutPage() {
         <section className="relative h-[70svh] min-h-[420px] w-full overflow-hidden bg-[#0b2b21]">
           <video
             className="absolute inset-0 h-full w-full object-cover opacity-80"
-            src="/10547964-uhd_4096_2160_25fps.mp4"
+            src="/video1.mp4"
             autoPlay
             muted
             loop

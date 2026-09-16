@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getCollections } from "../actions/get-collections";
+import DeleteCollectionButton from "./delete-collection-button";
 
 export default async function CollectionTable() {
   const collections = await getCollections();
@@ -95,12 +96,16 @@ export default async function CollectionTable() {
               </td>
 
               <td className="px-6 py-4 text-right">
-                <Link
-                  href={`/admin/collections/${collection.id}`}
-                  className="rounded-lg border px-3 py-2 text-sm hover:bg-gray-100"
-                >
-                  Edit
-                </Link>
+                <div className="flex justify-end gap-2">
+                  <Link
+                    href={`/admin/collections/${collection.id}`}
+                    className="rounded-lg border px-3 py-2 text-sm hover:bg-gray-100"
+                  >
+                    Edit
+                  </Link>
+
+                  <DeleteCollectionButton id={collection.id} />
+                </div>
               </td>
             </tr>
           ))}

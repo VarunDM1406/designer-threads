@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getSiteContact } from "@/lib/site-contact";
 import ContactForm from "@/features/contact/components/contact-form";
+import {
+  InstagramIcon,
+  FacebookIcon,
+  WhatsAppIcon,
+} from "@/components/icons/social";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Designer Threads.",
 };
 
-export default function ContactPage() {
-  const contact = getSiteContact();
+export default async function ContactPage() {
+  const contact = await getSiteContact();
 
   const hasAnyChannel =
     contact.whatsappUrl ||
@@ -108,11 +113,9 @@ export default function ContactPage() {
                       rel="noopener noreferrer"
                       className="flex items-start gap-3 text-[13px] text-[#171717] transition-colors hover:text-[#103f35]"
                     >
-                      <MessageCircle
-                        size={17}
-                        strokeWidth={1.5}
-                        className="mt-0.5 shrink-0 text-[#103f35]"
-                      />
+                      <span className="mt-0.5 shrink-0 text-[#103f35]">
+                        <WhatsAppIcon size={17} />
+                      </span>
                       <span>
                         <span className="block text-[10px] uppercase tracking-[0.1em] text-[#60716e]">
                           WhatsApp
@@ -191,9 +194,7 @@ export default function ContactPage() {
                             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ddd6ca] text-[#103f35] transition-colors hover:border-[#103f35]"
                             aria-label="Instagram"
                           >
-                            <span className="text-[11px] font-medium">
-                              IG
-                            </span>
+                            <InstagramIcon />
                           </a>
                         )}
 
@@ -205,9 +206,7 @@ export default function ContactPage() {
                             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ddd6ca] text-[#103f35] transition-colors hover:border-[#103f35]"
                             aria-label="Facebook"
                           >
-                            <span className="text-[11px] font-medium">
-                              FB
-                            </span>
+                            <FacebookIcon />
                           </a>
                         )}
                       </div>
