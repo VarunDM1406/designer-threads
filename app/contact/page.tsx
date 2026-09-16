@@ -15,6 +15,9 @@ import {
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Designer Threads.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default async function ContactPage() {

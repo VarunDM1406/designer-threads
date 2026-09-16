@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "How Designer Threads collects, uses and protects your personal information.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 const LAST_UPDATED = "16 September 2026";

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
     "The terms and conditions that govern your use of the Designer Threads website and your purchases with us.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 const LAST_UPDATED = "16 September 2026";

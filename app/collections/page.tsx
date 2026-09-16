@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "Collections",
   description:
     "Curated edits of Designer Threads' finest pieces, organized by occasion and style.",
+  alternates: {
+    canonical: "/collections",
+  },
 };
 
 export default async function CollectionsPage() {

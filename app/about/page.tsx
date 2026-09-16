@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Designer Threads brings Indian craftsmanship into a contemporary wardrobe — considered, expressive and made for today.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default async function AboutPage() {

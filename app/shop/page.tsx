@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Shop",
   description:
     "Discover thoughtfully crafted Indian wear, designed around traditional artistry and contemporary silhouettes.",
+  alternates: {
+    canonical: "/shop",
+  },
 };
 
 export default async function ShopPage() {

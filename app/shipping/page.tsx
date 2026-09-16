@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Shipping Policy",
   description:
     "Delivery timelines, charges and tracking information for Designer Threads orders.",
+  alternates: {
+    canonical: "/shipping",
+  },
 };
 
 const LAST_UPDATED = "16 September 2026";

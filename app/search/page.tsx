@@ -10,6 +10,13 @@ import SearchResults from "@/features/search/components/search-results";
 export const metadata: Metadata = {
   title: "Search",
   description: "Search Designer Threads for pieces by name, category, or SKU.",
+  alternates: {
+    canonical: "/search",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function SearchPage() {

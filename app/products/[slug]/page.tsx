@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
@@ -14,6 +15,60 @@ type ProductPageProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const supabase = await createClient();
+
+  const { data: product } = await supabase
+    .from("products")
+    .select(
+      "name, short_description, description, product_images(image_url, is_primary, display_order)"
+    )
+    .eq("slug", slug)
+    .eq("is_active", true)
+    .maybeSingle();
+
+  if (!product) {
+    return { title: "Product" };
+  }
+
+  const description =
+    product.short_description ||
+    product.description?.slice(0, 160) ||
+    `Shop ${product.name} at Designer Threads.`;
+
+  const images = (product.product_images ?? [])
+    .slice()
+    .sort((a, b) => {
+      if (a.is_primary !== b.is_primary) return a.is_primary ? -1 : 1;
+      return (a.display_order ?? 0) - (b.display_order ?? 0);
+    });
+
+  const image = images[0]?.image_url;
+
+  return {
+    title: product.name,
+    description,
+    alternates: {
+      canonical: `/products/${slug}`,
+    },
+    openGraph: {
+      title: product.name,
+      description,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
+}
 
 export default async function ProductPage({
   params,

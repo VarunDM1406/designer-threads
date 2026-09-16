@@ -30,6 +30,9 @@ export async function generateMetadata({
     description:
       collection.description ??
       `Explore the ${collection.name} collection from Designer Threads.`,
+    alternates: {
+      canonical: `/collections/${slug}`,
+    },
   };
 }
 

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Returns & Exchanges",
   description:
     "Our returns, exchange and refund policy for Designer Threads orders.",
+  alternates: {
+    canonical: "/returns",
+  },
 };
 
 const LAST_UPDATED = "16 September 2026";
