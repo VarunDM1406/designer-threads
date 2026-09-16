@@ -5,25 +5,74 @@ import RegisterForm from "@/features/auth/components/register-form";
 
 export default function RegisterPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-white p-6">
-      <Link
-        href="/"
-        className="mb-8 flex items-center gap-3"
-      >
-        <Image
-          src="/images/logos/dt-logo.jpeg"
-          alt="Designer Threads"
-          width={44}
-          height={44}
-          className="rounded-full object-cover"
+    <main className="flex min-h-screen bg-[#faf8f3]">
+      {/* LEFT — editorial image panel */}
+      <div className="relative hidden w-1/2 overflow-hidden bg-[#0b2b21] lg:block">
+        <video
+          src="/video2.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover opacity-80"
         />
 
-        <span className="font-serif text-[19px] tracking-[-0.02em] text-[#103f35]">
-          Designer Threads
-        </span>
-      </Link>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30" />
 
-      <RegisterForm />
+        <div className="relative flex h-full flex-col justify-between p-12 xl:p-16">
+          <Link
+            href="/"
+            className="flex items-center gap-3"
+          >
+            <Image
+              src="/images/logos/dt-logo.jpeg"
+              alt="Designer Threads"
+              width={44}
+              height={44}
+              className="rounded-full object-cover"
+            />
+
+            <span className="font-serif text-[19px] tracking-[-0.02em] text-white">
+              Designer Threads
+            </span>
+          </Link>
+
+          <blockquote className="max-w-[440px]">
+            <p className="font-serif text-[2.2rem] leading-[1.1] tracking-[-0.02em] text-white xl:text-[2.6rem]">
+              Made to be
+              <br />
+              <em>remembered.</em>
+            </p>
+
+            <p className="mt-4 text-[13px] leading-6 text-white/70">
+              Create an account to check out faster, track orders, and
+              save the pieces you love.
+            </p>
+          </blockquote>
+        </div>
+      </div>
+
+      {/* RIGHT — form panel */}
+      <div className="flex w-full flex-col items-center justify-center px-6 py-16 lg:w-1/2 lg:px-12">
+        <Link
+          href="/"
+          className="mb-10 flex items-center gap-3 lg:hidden"
+        >
+          <Image
+            src="/images/logos/dt-logo.jpeg"
+            alt="Designer Threads"
+            width={44}
+            height={44}
+            className="rounded-full object-cover"
+          />
+
+          <span className="font-serif text-[19px] tracking-[-0.02em] text-[#103f35]">
+            Designer Threads
+          </span>
+        </Link>
+
+        <RegisterForm />
+      </div>
     </main>
   );
 }

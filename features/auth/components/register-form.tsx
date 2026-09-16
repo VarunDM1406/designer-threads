@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { register } from "../actions/register";
 
 export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,7 +27,7 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="w-full max-w-lg border border-[#ddd6ca] bg-white p-8 sm:p-10">
+    <div className="w-full max-w-lg bg-white p-8 shadow-[0_1px_3px_rgba(16,63,53,0.06),0_20px_48px_-16px_rgba(16,63,53,0.12)] sm:p-10">
       <p className="text-center text-[9px] font-medium uppercase tracking-[0.3em] text-[#a87932]">
         Designer Threads
       </p>
@@ -82,14 +85,22 @@ export default function RegisterForm() {
             Email
           </label>
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="w-full border border-[#ddd6ca] px-4 py-3 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
-            placeholder="Enter your email"
-          />
+          <div className="relative">
+            <Mail
+              size={16}
+              strokeWidth={1.5}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#60716e]"
+            />
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="w-full border border-[#ddd6ca] py-3 pl-11 pr-4 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
+              placeholder="Enter your email"
+            />
+          </div>
         </div>
 
         <div>
@@ -100,14 +111,37 @@ export default function RegisterForm() {
             Password
           </label>
 
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            className="w-full border border-[#ddd6ca] px-4 py-3 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
-            placeholder="Create password"
-          />
+          <div className="relative">
+            <Lock
+              size={16}
+              strokeWidth={1.5}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#60716e]"
+            />
+
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              required
+              className="w-full border border-[#ddd6ca] py-3 pl-11 pr-11 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
+              placeholder="Create password"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword((current) => !current)}
+              aria-label={
+                showPassword ? "Hide password" : "Show password"
+              }
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#60716e] transition-colors hover:text-[#103f35]"
+            >
+              {showPassword ? (
+                <EyeOff size={16} strokeWidth={1.5} />
+              ) : (
+                <Eye size={16} strokeWidth={1.5} />
+              )}
+            </button>
+          </div>
         </div>
 
         <div>
@@ -118,14 +152,39 @@ export default function RegisterForm() {
             Confirm Password
           </label>
 
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            required
-            className="w-full border border-[#ddd6ca] px-4 py-3 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
-            placeholder="Confirm password"
-          />
+          <div className="relative">
+            <Lock
+              size={16}
+              strokeWidth={1.5}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#60716e]"
+            />
+
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              required
+              className="w-full border border-[#ddd6ca] py-3 pl-11 pr-11 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
+              placeholder="Confirm password"
+            />
+
+            <button
+              type="button"
+              onClick={() =>
+                setShowConfirmPassword((current) => !current)
+              }
+              aria-label={
+                showConfirmPassword ? "Hide password" : "Show password"
+              }
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#60716e] transition-colors hover:text-[#103f35]"
+            >
+              {showConfirmPassword ? (
+                <EyeOff size={16} strokeWidth={1.5} />
+              ) : (
+                <Eye size={16} strokeWidth={1.5} />
+              )}
+            </button>
+          </div>
         </div>
 
         <button
