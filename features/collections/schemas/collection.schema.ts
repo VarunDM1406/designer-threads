@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const collectionSchema = z.object({
-  name: z.string().min(2, "Name is required"),
+  name: z.string().trim().min(2, "Name is required"),
 
-  slug: z.string().min(2, "Slug is required"),
+  slug: z.string().trim().min(2, "Slug is required"),
 
   description: z.string().optional(),
 

@@ -9,7 +9,7 @@ export default async function AdminGuard({
   const user = await getAdminUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/admin/login");
   }
 
   return <>{children}</>;

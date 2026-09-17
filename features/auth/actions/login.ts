@@ -61,6 +61,18 @@ export async function login(formData: FormData) {
     redirect("/admin");
   }
 
+  // Signed in with valid credentials via the admin login form, but this
+  // account isn't an admin — tell them clearly instead of silently
+  // bouncing them back to /admin/login with no explanation.
+  if (next === "/admin") {
+    await supabase.auth.signOut();
+
+    return {
+      success: false,
+      message: "This account doesn't have admin access.",
+    };
+  }
+
   // Customers return to the page they came from.
   // If there is no destination, go home.
   redirect(next || "/");

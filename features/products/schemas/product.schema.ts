@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const productSchema = z.object({
   // Basic
-  name: z.string().min(2, "Product name is required"),
-  slug: z.string().min(2, "Slug is required"),
-  sku: z.string().min(2, "SKU is required"),
+  name: z.string().trim().min(2, "Product name is required"),
+  slug: z.string().trim().min(2, "Slug is required"),
+  sku: z.string().trim().min(2, "SKU is required"),
 
 // Organization
 category_id: z.string().uuid(),
