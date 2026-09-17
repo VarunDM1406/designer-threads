@@ -75,12 +75,21 @@ export default function AdminLoginForm() {
         </div>
 
         <div>
-          <label
-            htmlFor="admin-password"
-            className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.1em] text-gray-400"
-          >
-            Password
-          </label>
+          <div className="mb-1.5 flex items-center justify-between">
+            <label
+              htmlFor="admin-password"
+              className="block text-[11px] font-medium uppercase tracking-[0.1em] text-gray-400"
+            >
+              Password
+            </label>
+
+            <Link
+              href="/forgot-password"
+              className="text-[11px] text-gray-500 underline underline-offset-4 transition-colors hover:text-gray-300"
+            >
+              Forgot password?
+            </Link>
+          </div>
 
           <div className="relative">
             <Lock

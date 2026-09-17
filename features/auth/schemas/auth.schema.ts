@@ -1,10 +1,19 @@
 import { z } from "zod";
 
+export const emailSchema = z
+  .email("Please enter a valid email address")
+  .trim()
+  .toLowerCase();
+
+export const passwordSchema = z
+  .string()
+  .min(8, "Password must contain at least 8 characters")
+  .regex(/[A-Z]/, "One uppercase letter required")
+  .regex(/[a-z]/, "One lowercase letter required")
+  .regex(/[0-9]/, "One number required");
+
 export const loginSchema = z.object({
-  email: z
-    .email("Please enter a valid email address")
-    .trim()
-    .toLowerCase(),
+  email: emailSchema,
 
   password: z
     .string()
@@ -23,18 +32,24 @@ export const registerSchema = z
       .min(2, "Last name is required")
       .max(50),
 
-    email: z
-      .email("Please enter a valid email address")
-      .trim()
-      .toLowerCase(),
+    email: emailSchema,
 
-    password: z
-      .string()
-      .min(8, "Password must contain at least 8 characters")
-      .regex(/[A-Z]/, "One uppercase letter required")
-      .regex(/[a-z]/, "One lowercase letter required")
-      .regex(/[0-9]/, "One number required"),
+    password: passwordSchema,
 
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
+
+export const resetPasswordSchema = z
+  .object({
+    password: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -44,3 +59,5 @@ export const registerSchema = z
 
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type RegisterSchema = z.infer<typeof registerSchema>;
+export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
