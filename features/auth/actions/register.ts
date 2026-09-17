@@ -1,22 +1,27 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { registerSchema } from "../schemas/auth.schema";
 
 export async function register(formData: FormData) {
-  const supabase = await createClient();
+  const parsed = registerSchema.safeParse({
+    firstName: String(formData.get("firstName") || ""),
+    lastName: String(formData.get("lastName") || ""),
+    email: String(formData.get("email") || ""),
+    password: String(formData.get("password") || ""),
+    confirmPassword: String(formData.get("confirmPassword") || ""),
+  });
 
-  const firstName = String(formData.get("firstName"));
-  const lastName = String(formData.get("lastName"));
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
-  const confirmPassword = String(formData.get("confirmPassword"));
-
-  if (password !== confirmPassword) {
+  if (!parsed.success) {
     return {
       success: false,
-      message: "Passwords do not match.",
+      message: parsed.error.issues[0]?.message || "Invalid input.",
     };
   }
+
+  const { firstName, lastName, email, password } = parsed.data;
+
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
     email,

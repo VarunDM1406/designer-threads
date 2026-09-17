@@ -1,14 +1,35 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Check, Eye, EyeOff, Lock, Mail, X } from "lucide-react";
 import { register } from "../actions/register";
+
+const passwordRules = [
+  {
+    label: "At least 8 characters",
+    test: (value: string) => value.length >= 8,
+  },
+  {
+    label: "One uppercase letter",
+    test: (value: string) => /[A-Z]/.test(value),
+  },
+  {
+    label: "One lowercase letter",
+    test: (value: string) => /[a-z]/.test(value),
+  },
+  {
+    label: "One number",
+    test: (value: string) => /[0-9]/.test(value),
+  },
+];
 
 export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordTouched, setPasswordTouched] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -123,6 +144,9 @@ export default function RegisterForm() {
               name="password"
               type={showPassword ? "text" : "password"}
               required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              onFocus={() => setPasswordTouched(true)}
               className="w-full border border-[#ddd6ca] py-3 pl-11 pr-11 text-[14px] text-[#1f1f1f] outline-none focus:border-[#103f35]"
               placeholder="Create password"
             />
@@ -142,6 +166,30 @@ export default function RegisterForm() {
               )}
             </button>
           </div>
+
+          {passwordTouched && (
+            <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+              {passwordRules.map((rule) => {
+                const met = rule.test(password);
+
+                return (
+                  <li
+                    key={rule.label}
+                    className={`flex items-center gap-1.5 text-[12px] transition-colors ${
+                      met ? "text-[#0b7a4b]" : "text-[#60716e]"
+                    }`}
+                  >
+                    {met ? (
+                      <Check size={13} strokeWidth={2} />
+                    ) : (
+                      <X size={13} strokeWidth={2} />
+                    )}
+                    {rule.label}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
 
         <div>
