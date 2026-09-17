@@ -146,6 +146,15 @@ export default function LoginForm({
           Create one
         </a>
       </p>
+
+      <p className="mt-4 text-center text-[11px] text-[#a8a29e]">
+        <a
+          href="/admin/login"
+          className="underline underline-offset-4 transition-colors hover:text-[#60716e]"
+        >
+          Login as Admin
+        </a>
+      </p>
     </div>
   );
 }
